@@ -17,4 +17,15 @@ body {
 
 #lovable-button {
   display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  position: absolute !important;
+  z-index: -9999 !important;
+}
+
+/* Ensure our app content takes precedence */
+.app-content {
+  position: relative;
+  z-index: 1;
 }

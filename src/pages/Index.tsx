@@ -42,7 +42,7 @@ const Index = () => {
         type: 'signup',
         email,
         options: {
-          emailRedirectTo: 'https://lovable.dev/projects/67c142da-72c0-46bb-9a7d-cd6356951302'
+          emailRedirectTo: window.location.origin
         }
       });
       
@@ -57,7 +57,7 @@ const Index = () => {
   };
 
   return (
-    <div className="absolute inset-0 w-full h-full flex items-center justify-center bg-background">
+    <div className="app-content absolute inset-0 w-full h-full flex items-center justify-center bg-background">
       <div className="relative w-full h-full flex items-center justify-center">
         <Card className="w-full max-w-md p-6 space-y-6 shadow-lg">
           <h1 className="text-2xl font-bold text-center text-foreground">Welcome to Secure Chat</h1>
@@ -76,7 +76,7 @@ const Index = () => {
             }}
             theme="dark"
             providers={[]}
-            redirectTo="https://lovable.dev/projects/67c142da-72c0-46bb-9a7d-cd6356951302/chat"
+            redirectTo={`${window.location.origin}/chat`}
           />
           <div className="text-center space-y-2">
             <Button variant="ghost" onClick={handleResendLink}>
