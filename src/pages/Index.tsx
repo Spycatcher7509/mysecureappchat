@@ -22,11 +22,13 @@ const Index = () => {
   const navigate = useNavigate();
   const [profiles, setProfiles] = useState<Profile[]>([]);
   const [loading, setLoading] = useState(true);
+  const [session, setSession] = useState(null);
 
   useEffect(() => {
     // Check current session on mount
     const checkSession = async () => {
       const { data: { session } } = await supabase.auth.getSession();
+      setSession(session);
       if (session) {
         fetchProfiles();
       }
@@ -36,6 +38,7 @@ const Index = () => {
     // Listen for auth state changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       console.log("Auth event:", event, "Session:", session);
+      setSession(session);
       
       if (event === 'SIGNED_IN') {
         toast.success("Successfully signed in!");
@@ -100,6 +103,49 @@ const Index = () => {
     navigate(`/chat?user=${userId}`);
   };
 
+  // Show auth UI if not logged in
+  if (!session) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background p-4">
+        <Card className="w-full max-w-md p-6 space-y-6 shadow-lg">
+          <h1 className="text-2xl font-bold text-center text-foreground mb-6">Welcome to Secure Chat</h1>
+          <Auth
+            supabaseClient={supabase}
+            appearance={{
+              theme: ThemeSupa,
+              variables: {
+                default: {
+                  colors: {
+                    brand: 'rgb(var(--primary))',
+                    brandAccent: 'rgb(var(--primary))',
+                  }
+                }
+              },
+              className: {
+                container: 'w-full',
+                button: 'w-full px-4 py-2 rounded',
+                input: 'w-full px-3 py-2 rounded border',
+                message: 'text-sm text-red-500'
+              }
+            }}
+            theme="dark"
+            providers={[]}
+            redirectTo="https://lovable.dev/projects/67c142da-72c0-46bb-9a7d-cd6356951302/chat"
+          />
+          <div className="text-center space-y-2">
+            <Button variant="ghost" onClick={handleResendLink}>
+              Resend verification link
+            </Button>
+            <p className="text-sm text-muted-foreground">
+              If you're having trouble signing in, make sure you've verified your email address.
+            </p>
+          </div>
+        </Card>
+      </div>
+    );
+  }
+
+  // Show user list if logged in
   return (
     <div className="min-h-screen flex items-center justify-center bg-background p-4">
       <Card className="w-full max-w-4xl p-6 space-y-6 shadow-lg">
@@ -109,7 +155,7 @@ const Index = () => {
           <div className="flex justify-center">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
           </div>
-        ) : profiles.length > 0 ? (
+        ) : (
           <div className="space-y-4">
             <h2 className="text-lg font-semibold flex items-center gap-2">
               <UserRound className="h-5 w-5" />
@@ -152,41 +198,6 @@ const Index = () => {
                 ))}
               </div>
             </ScrollArea>
-          </div>
-        ) : (
-          <Auth
-            supabaseClient={supabase}
-            appearance={{
-              theme: ThemeSupa,
-              variables: {
-                default: {
-                  colors: {
-                    brand: 'rgb(var(--primary))',
-                    brandAccent: 'rgb(var(--primary))',
-                  }
-                }
-              },
-              className: {
-                container: 'w-full',
-                button: 'w-full px-4 py-2 rounded',
-                input: 'w-full px-3 py-2 rounded border',
-                message: 'text-sm text-red-500'
-              }
-            }}
-            theme="dark"
-            providers={[]}
-            redirectTo="https://lovable.dev/projects/67c142da-72c0-46bb-9a7d-cd6356951302/chat"
-          />
-        )}
-        
-        {!profiles.length && (
-          <div className="text-center space-y-2">
-            <Button variant="ghost" onClick={handleResendLink}>
-              Resend verification link
-            </Button>
-            <p className="text-sm text-muted-foreground">
-              If you're having trouble signing in, make sure you've verified your email address.
-            </p>
           </div>
         )}
       </Card>
