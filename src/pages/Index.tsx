@@ -4,6 +4,7 @@ import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
+import { toast } from "sonner";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -12,9 +13,19 @@ const Index = () => {
     // Check authentication status
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (session) {
+        toast.success("Successfully signed in!");
         navigate("/chat");
       }
     });
+
+    // Check if user is already authenticated
+    const checkUser = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        navigate("/chat");
+      }
+    };
+    checkUser();
 
     return () => {
       subscription.unsubscribe();
