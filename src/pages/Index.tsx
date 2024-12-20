@@ -19,14 +19,10 @@ const Index = () => {
     };
     checkSession();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
-      
-      if (event === 'SIGNED_IN') {
-        toast.success("Successfully signed in!");
+      if (session) {
         navigate('/chat');
-      } else if (event === 'SIGNED_OUT') {
-        toast.info("Signed out successfully");
       }
     });
 
@@ -42,7 +38,7 @@ const Index = () => {
         type: 'signup',
         email,
         options: {
-          emailRedirectTo: window.location.origin
+          emailRedirectTo: window.location.origin + '/chat'
         }
       });
       
