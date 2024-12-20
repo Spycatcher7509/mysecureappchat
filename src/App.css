@@ -15,6 +15,7 @@ body {
   overflow: hidden;
 }
 
+/* Hide any Lovable-related elements */
 #lovable-button,
 [data-lovable],
 [class*="lovable"],
