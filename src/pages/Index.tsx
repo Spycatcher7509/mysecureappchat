@@ -38,17 +38,23 @@ const Index = () => {
     if (!email) return;
 
     try {
-      const { error } = await supabase.auth.resend({
+      const { data, error } = await supabase.auth.resend({
         type: 'signup',
         email: email,
+        options: {
+          emailRedirectTo: window.location.origin
+        }
       });
       
       if (error) {
+        console.error("Resend error:", error);
         toast.error(error.message);
       } else {
+        console.log("Resend response:", data);
         toast.success("Verification link has been resent to your email!");
       }
     } catch (error) {
+      console.error("Resend catch error:", error);
       toast.error("Failed to resend verification link");
     }
   };
