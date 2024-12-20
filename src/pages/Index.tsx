@@ -80,7 +80,7 @@ const Index = () => {
         type: 'signup',
         email: email,
         options: {
-          emailRedirectTo: window.location.origin
+          emailRedirectTo: 'https://secure-.gpteng.ai'
         }
       });
       
@@ -175,7 +175,7 @@ const Index = () => {
             }}
             theme="dark"
             providers={[]}
-            redirectTo={`${window.location.origin}/chat`}
+            redirectTo="https://secure-.gpteng.ai/chat"
           />
         )}
         
