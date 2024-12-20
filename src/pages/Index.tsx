@@ -62,9 +62,9 @@ const Index = () => {
         <Card className="w-full max-w-md p-6 space-y-6 shadow-lg">
           <div className="w-full flex justify-center mb-4">
             <img 
-              src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b"
-              alt="Secure Chat"
-              className="w-full h-32 object-cover rounded-lg mb-4"
+              src="https://upload.wikimedia.org/wikipedia/commons/3/37/Flag_of_the_Royal_Corps_of_Signals.svg"
+              alt="Royal Corps of Signals Flag"
+              className="w-full h-32 object-contain rounded-lg mb-4"
             />
           </div>
           <h1 className="text-2xl font-bold text-center text-foreground">Welcome to Secure Chat</h1>
