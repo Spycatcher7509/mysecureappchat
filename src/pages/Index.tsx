@@ -80,7 +80,7 @@ const Index = () => {
         type: 'signup',
         email: email,
         options: {
-          emailRedirectTo: 'https://secure-.gpteng.ai'
+          emailRedirectTo: 'https://lovable.dev/projects/67c142da-72c0-46bb-9a7d-cd6356951302'
         }
       });
       
@@ -175,7 +175,7 @@ const Index = () => {
             }}
             theme="dark"
             providers={[]}
-            redirectTo="https://secure-.gpteng.ai/chat"
+            redirectTo="https://lovable.dev/projects/67c142da-72c0-46bb-9a7d-cd6356951302/chat"
           />
         )}
         
