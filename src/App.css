@@ -24,6 +24,8 @@ body {
 [id*="gpteng"],
 [class*="wright"],
 [id*="wright"],
+.lovable-badge,
+.gpt-engineer-badge,
 div[style*="position: fixed"][style*="bottom: 0"],
 div[style*="position: fixed"][style*="right: 0"] {
   display: none !important;
@@ -44,4 +46,14 @@ div[style*="position: fixed"][style*="right: 0"] {
 .app-content {
   position: relative;
   z-index: 1;
+}
+
+/* Ensure the Royal Corps image is visible */
+.royal-corps-image {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  z-index: 1 !important;
+  width: auto !important;
+  height: auto !important;
 }

@@ -64,7 +64,7 @@ const Index = () => {
             <img 
               src="https://upload.wikimedia.org/wikipedia/commons/3/37/Flag_of_the_Royal_Corps_of_Signals.svg"
               alt="Royal Corps of Signals Flag"
-              className="w-full h-32 object-contain rounded-lg mb-4"
+              className="w-full h-32 object-contain rounded-lg mb-4 royal-corps-image"
             />
           </div>
           <h1 className="text-2xl font-bold text-center text-foreground">Welcome to Secure Chat</h1>
