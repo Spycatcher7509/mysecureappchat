@@ -69,43 +69,46 @@ const Index = () => {
   };
 
   return (
-    <div className="fixed inset-0 min-h-[100dvh] w-full flex items-center justify-center bg-background overflow-hidden">
-      <div className="absolute inset-0 bg-background" />
-      <Card className="relative w-full max-w-md p-6 space-y-6 shadow-lg bg-background z-50">
-        <h1 className="text-2xl font-bold text-center text-foreground mb-6">Welcome to Secure Chat</h1>
-        <Auth
-          supabaseClient={supabase}
-          appearance={{
-            theme: ThemeSupa,
-            variables: {
-              default: {
-                colors: {
-                  brand: 'rgb(var(--primary))',
-                  brandAccent: 'rgb(var(--primary))',
+    <>
+      <div className="fixed inset-0 min-h-[100dvh] w-full bg-background" style={{ zIndex: 9999 }}>
+        <div className="absolute inset-0 flex items-center justify-center p-4">
+          <Card className="w-full max-w-md p-6 space-y-6 shadow-lg">
+            <h1 className="text-2xl font-bold text-center text-foreground mb-6">Welcome to Secure Chat</h1>
+            <Auth
+              supabaseClient={supabase}
+              appearance={{
+                theme: ThemeSupa,
+                variables: {
+                  default: {
+                    colors: {
+                      brand: 'rgb(var(--primary))',
+                      brandAccent: 'rgb(var(--primary))',
+                    }
+                  }
+                },
+                className: {
+                  container: 'w-full',
+                  button: 'w-full px-4 py-2 rounded',
+                  input: 'w-full px-3 py-2 rounded border',
+                  message: 'text-sm text-red-500'
                 }
-              }
-            },
-            className: {
-              container: 'w-full',
-              button: 'w-full px-4 py-2 rounded',
-              input: 'w-full px-3 py-2 rounded border',
-              message: 'text-sm text-red-500'
-            }
-          }}
-          theme="dark"
-          providers={[]}
-          redirectTo="https://lovable.dev/projects/67c142da-72c0-46bb-9a7d-cd6356951302/chat"
-        />
-        <div className="text-center space-y-2">
-          <Button variant="ghost" onClick={handleResendLink}>
-            Resend verification link
-          </Button>
-          <p className="text-sm text-muted-foreground">
-            If you're having trouble signing in, make sure you've verified your email address.
-          </p>
+              }}
+              theme="dark"
+              providers={[]}
+              redirectTo="https://lovable.dev/projects/67c142da-72c0-46bb-9a7d-cd6356951302/chat"
+            />
+            <div className="text-center space-y-2">
+              <Button variant="ghost" onClick={handleResendLink}>
+                Resend verification link
+              </Button>
+              <p className="text-sm text-muted-foreground">
+                If you're having trouble signing in, make sure you've verified your email address.
+              </p>
+            </div>
+          </Card>
         </div>
-      </Card>
-    </div>
+      </div>
+    </>
   );
 };
 
