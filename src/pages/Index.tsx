@@ -11,34 +11,30 @@ const Index = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check authentication status
+    // Check current session on mount
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        navigate("/chat");
+      }
+    };
+    checkSession();
+
+    // Listen for auth state changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      console.log("Auth event:", event);
+      console.log("Auth event:", event, "Session:", session);
+      
       if (event === 'SIGNED_IN') {
         toast.success("Successfully signed in!");
         navigate("/chat");
       } else if (event === 'SIGNED_OUT') {
-        toast.info("Signed out");
-      } else if (event === 'USER_UPDATED') {
-        console.log("User updated:", session?.user);
+        toast.info("Signed out successfully");
       } else if (event === 'PASSWORD_RECOVERY') {
         toast.info("Password recovery email sent");
       }
     });
 
-    // Check if user is already authenticated
-    const checkUser = async () => {
-      const { data: { session }, error } = await supabase.auth.getSession();
-      if (error) {
-        console.error("Session check error:", error);
-        toast.error(error.message);
-      }
-      if (session) {
-        navigate("/chat");
-      }
-    };
-    checkUser();
-
+    // Cleanup subscription
     return () => {
       subscription.unsubscribe();
     };
