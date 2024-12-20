@@ -9,28 +9,61 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      messages: {
+        Row: {
+          content: string | null
+          created_at: string | null
+          file_path: string | null
+          file_type: string | null
+          id: number
+          sender_id: string
+        }
+        Insert: {
+          content?: string | null
+          created_at?: string | null
+          file_path?: string | null
+          file_type?: string | null
+          id?: number
+          sender_id: string
+        }
+        Update: {
+          content?: string | null
+          created_at?: string | null
+          file_path?: string | null
+          file_type?: string | null
+          id?: number
+          sender_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           comments: string | null
           email: string
-          id: number
+          id: string
+          last_seen: string | null
           nickname: string | null
+          online_status: boolean | null
           phone_number: string | null
           postal_addresses: string | null
         }
         Insert: {
           comments?: string | null
           email: string
-          id?: never
+          id: string
+          last_seen?: string | null
           nickname?: string | null
+          online_status?: boolean | null
           phone_number?: string | null
           postal_addresses?: string | null
         }
         Update: {
           comments?: string | null
           email?: string
-          id?: never
+          id?: string
+          last_seen?: string | null
           nickname?: string | null
+          online_status?: boolean | null
           phone_number?: string | null
           postal_addresses?: string | null
         }
