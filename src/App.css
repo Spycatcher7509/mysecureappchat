@@ -8,3 +8,13 @@
   inset: 0;
   background: hsl(var(--background));
 }
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+#lovable-button {
+  display: none !important;
+}

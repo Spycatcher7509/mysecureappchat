@@ -57,35 +57,37 @@ const Index = () => {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-background" style={{ position: 'fixed', zIndex: 2147483647 }}>
-      <Card className="w-full max-w-md p-6 space-y-6 shadow-lg">
-        <h1 className="text-2xl font-bold text-center text-foreground">Welcome to Secure Chat</h1>
-        <Auth
-          supabaseClient={supabase}
-          appearance={{
-            theme: ThemeSupa,
-            variables: {
-              default: {
-                colors: {
-                  brand: 'rgb(var(--primary))',
-                  brandAccent: 'rgb(var(--primary))',
+    <div className="absolute inset-0 w-full h-full flex items-center justify-center bg-background">
+      <div className="relative w-full h-full flex items-center justify-center">
+        <Card className="w-full max-w-md p-6 space-y-6 shadow-lg">
+          <h1 className="text-2xl font-bold text-center text-foreground">Welcome to Secure Chat</h1>
+          <Auth
+            supabaseClient={supabase}
+            appearance={{
+              theme: ThemeSupa,
+              variables: {
+                default: {
+                  colors: {
+                    brand: 'rgb(var(--primary))',
+                    brandAccent: 'rgb(var(--primary))',
+                  }
                 }
               }
-            }
-          }}
-          theme="dark"
-          providers={[]}
-          redirectTo="https://lovable.dev/projects/67c142da-72c0-46bb-9a7d-cd6356951302/chat"
-        />
-        <div className="text-center space-y-2">
-          <Button variant="ghost" onClick={handleResendLink}>
-            Resend verification link
-          </Button>
-          <p className="text-sm text-muted-foreground">
-            If you're having trouble signing in, make sure you've verified your email address.
-          </p>
-        </div>
-      </Card>
+            }}
+            theme="dark"
+            providers={[]}
+            redirectTo="https://lovable.dev/projects/67c142da-72c0-46bb-9a7d-cd6356951302/chat"
+          />
+          <div className="text-center space-y-2">
+            <Button variant="ghost" onClick={handleResendLink}>
+              Resend verification link
+            </Button>
+            <p className="text-sm text-muted-foreground">
+              If you're having trouble signing in, make sure you've verified your email address.
+            </p>
+          </div>
+        </Card>
+      </div>
     </div>
   );
 };
