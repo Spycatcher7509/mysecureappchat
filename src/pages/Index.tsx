@@ -69,8 +69,10 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4" style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}>
-      <Card className="w-full max-w-md p-6 space-y-6 shadow-lg">
+    <div 
+      className="fixed inset-0 min-h-screen w-full flex items-center justify-center bg-background p-4 z-50" 
+    >
+      <Card className="w-full max-w-md p-6 space-y-6 shadow-lg bg-background">
         <h1 className="text-2xl font-bold text-center text-foreground mb-6">Welcome to Secure Chat</h1>
         <Auth
           supabaseClient={supabase}
