@@ -69,10 +69,9 @@ const Index = () => {
   };
 
   return (
-    <div 
-      className="fixed inset-0 min-h-screen w-full flex items-center justify-center bg-background p-4 z-50" 
-    >
-      <Card className="w-full max-w-md p-6 space-y-6 shadow-lg bg-background">
+    <div className="fixed inset-0 min-h-[100dvh] w-full flex items-center justify-center bg-background overflow-hidden">
+      <div className="absolute inset-0 bg-background" />
+      <Card className="relative w-full max-w-md p-6 space-y-6 shadow-lg bg-background z-50">
         <h1 className="text-2xl font-bold text-center text-foreground mb-6">Welcome to Secure Chat</h1>
         <Auth
           supabaseClient={supabase}
