@@ -1,33 +1,33 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { LogOut, Send, Paperclip, Image, FileText } from "lucide-react";
 import { toast } from "sonner";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-
-interface Message {
-  id: number;
-  content: string | null;
-  sender_id: string;
-  created_at: string | null;
-  file_path: string | null;
-  file_type: string | null;
-}
+import { MessageList } from "@/components/chat/MessageList";
+import { MessageInput } from "@/components/chat/MessageInput";
+import { Message } from "@/types/chat";
 
 const Chat = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [newMessage, setNewMessage] = useState("");
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const [currentUserId, setCurrentUserId] = useState<string>();
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (!session) {
         navigate("/");
+      } else {
+        setCurrentUserId(session.user.id);
+      }
+    });
+
+    // Set initial user ID
+    supabase.auth.getUser().then(({ data: { user }}) => {
+      if (user) {
+        setCurrentUserId(user.id);
       }
     });
 
@@ -58,7 +58,7 @@ const Chat = () => {
             content,
             file_path: filePath,
             file_type: fileType,
-            sender_id: (await supabase.auth.getUser()).data.user?.id,
+            sender_id: currentUserId,
           },
         ]);
       
@@ -112,49 +112,6 @@ const Chat = () => {
     }
   };
 
-  const renderMessage = (message: Message) => {
-    const isCurrentUser = message.sender_id === supabase.auth.getUser().data.user?.id;
-    
-    return (
-      <div
-        key={message.id}
-        className={`flex ${isCurrentUser ? 'justify-end' : 'justify-start'} mb-4`}
-      >
-        <div
-          className={`max-w-[70%] rounded-lg p-3 ${
-            isCurrentUser ? 'bg-primary text-primary-foreground' : 'bg-muted'
-          }`}
-        >
-          {message.file_path && (
-            <div className="mb-2">
-              {message.file_type?.startsWith('image/') ? (
-                <img
-                  src={`https://cnwbjhuaafklcredknbo.supabase.co/storage/v1/object/public/chat_attachments/${message.file_path}`}
-                  alt="Shared image"
-                  className="max-w-full rounded"
-                />
-              ) : (
-                <a
-                  href={`https://cnwbjhuaafklcredknbo.supabase.co/storage/v1/object/public/chat_attachments/${message.file_path}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-blue-500 hover:text-blue-600"
-                >
-                  <FileText className="h-4 w-4" />
-                  Download file
-                </a>
-              )}
-            </div>
-          )}
-          <p>{message.content}</p>
-          <span className="text-xs opacity-70 mt-1 block">
-            {new Date(message.created_at!).toLocaleTimeString()}
-          </span>
-        </div>
-      </div>
-    );
-  };
-
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <div className="flex justify-between items-center p-4 border-b">
@@ -165,43 +122,18 @@ const Chat = () => {
         </Button>
       </div>
 
-      <ScrollArea className="flex-1 p-4" ref={scrollAreaRef}>
-        {isLoading ? (
-          <div className="flex justify-center items-center h-full">
-            <p>Loading messages...</p>
-          </div>
-        ) : (
-          messages.map(renderMessage)
-        )}
-      </ScrollArea>
+      <MessageList 
+        messages={messages}
+        currentUserId={currentUserId}
+        isLoading={isLoading}
+      />
 
-      <div className="p-4 border-t">
-        <div className="flex gap-2">
-          <Input
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-            placeholder="Type a message..."
-            className="flex-1"
-          />
-          <input
-            type="file"
-            ref={fileInputRef}
-            onChange={handleFileUpload}
-            className="hidden"
-          />
-          <Button
-            variant="ghost"
-            onClick={() => fileInputRef.current?.click()}
-            title="Attach file"
-          >
-            <Paperclip className="h-4 w-4" />
-          </Button>
-          <Button onClick={handleSendMessage} disabled={!newMessage.trim()}>
-            <Send className="h-4 w-4" />
-          </Button>
-        </div>
-      </div>
+      <MessageInput
+        newMessage={newMessage}
+        setNewMessage={setNewMessage}
+        handleSendMessage={handleSendMessage}
+        handleFileUpload={handleFileUpload}
+      />
     </div>
   );
 };
