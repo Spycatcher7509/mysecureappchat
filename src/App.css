@@ -15,7 +15,10 @@ body {
   overflow: hidden;
 }
 
-#lovable-button {
+#lovable-button,
+[data-lovable],
+[class*="lovable"],
+[id*="lovable"] {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;
