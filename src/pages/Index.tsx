@@ -5,6 +5,7 @@ import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -32,6 +33,26 @@ const Index = () => {
     };
   }, [navigate]);
 
+  const handleResendLink = async () => {
+    const email = prompt("Please enter your email address");
+    if (!email) return;
+
+    try {
+      const { error } = await supabase.auth.resend({
+        type: 'signup',
+        email: email,
+      });
+      
+      if (error) {
+        toast.error(error.message);
+      } else {
+        toast.success("Verification link has been resent to your email!");
+      }
+    } catch (error) {
+      toast.error("Failed to resend verification link");
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-background p-4">
       <Card className="w-full max-w-md p-6 space-y-6 shadow-lg">
@@ -52,6 +73,11 @@ const Index = () => {
           theme="dark"
           providers={[]}
         />
+        <div className="text-center">
+          <Button variant="ghost" onClick={handleResendLink}>
+            Resend verification link
+          </Button>
+        </div>
       </Card>
     </div>
   );
