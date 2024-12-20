@@ -33,6 +33,29 @@ const Index = () => {
     return () => subscription.unsubscribe();
   }, [navigate]);
 
+  const handleResendLink = async () => {
+    const email = prompt("Please enter your email address");
+    if (!email) return;
+
+    try {
+      const { error } = await supabase.auth.resend({
+        type: 'signup',
+        email,
+        options: {
+          emailRedirectTo: window.location.origin
+        }
+      });
+      
+      if (error) {
+        toast.error(error.message);
+      } else {
+        toast.success("Verification link has been resent to your email!");
+      }
+    } catch {
+      toast.error("Failed to resend verification link");
+    }
+  };
+
   return (
     <div className="app-content absolute inset-0 w-full h-full flex items-center justify-center bg-background">
       <div className="relative w-full h-full flex items-center justify-center">
