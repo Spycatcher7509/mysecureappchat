@@ -21,6 +21,10 @@ const Index = () => {
         toast.info("Signed out");
       } else if (event === 'USER_UPDATED') {
         console.log("User updated:", session?.user);
+      } else if (event === 'USER_DELETED') {
+        toast.error("User account has been deleted");
+      } else if (event === 'PASSWORD_RECOVERY') {
+        toast.info("Password recovery email sent");
       }
     });
 
@@ -87,16 +91,24 @@ const Index = () => {
               container: 'w-full',
               button: 'w-full px-4 py-2 rounded',
               input: 'w-full px-3 py-2 rounded border',
+              message: 'text-sm text-red-500'
             }
           }}
           theme="dark"
           providers={[]}
           redirectTo={`${window.location.origin}/chat`}
+          onError={(error) => {
+            console.error("Auth error:", error);
+            toast.error(error.message);
+          }}
         />
-        <div className="text-center">
+        <div className="text-center space-y-2">
           <Button variant="ghost" onClick={handleResendLink}>
             Resend verification link
           </Button>
+          <p className="text-sm text-muted-foreground">
+            If you're having trouble signing in, make sure you've verified your email address.
+          </p>
         </div>
       </Card>
     </div>
