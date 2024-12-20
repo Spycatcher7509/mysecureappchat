@@ -38,7 +38,8 @@ const Index = () => {
         type: 'signup',
         email,
         options: {
-          emailRedirectTo: `${window.location.origin}/chat`
+          // Using relative path instead of full URL to avoid DNS issues
+          emailRedirectTo: '/chat'
         }
       });
       
@@ -47,7 +48,7 @@ const Index = () => {
       } else {
         toast.success("Verification link has been resent to your email!");
       }
-    } catch {
+    } catch (error) {
       toast.error("Failed to resend verification link");
     }
   };
@@ -79,7 +80,7 @@ const Index = () => {
             }}
             theme="dark"
             providers={[]}
-            redirectTo={`${window.location.origin}/chat`}
+            redirectTo="/chat"
           />
           <div className="text-center space-y-2">
             <Button variant="ghost" onClick={handleResendLink}>
