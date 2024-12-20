@@ -13,15 +13,24 @@ const Index = () => {
   useEffect(() => {
     // Check authentication status
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (session) {
+      console.log("Auth event:", event);
+      if (event === 'SIGNED_IN') {
         toast.success("Successfully signed in!");
         navigate("/chat");
+      } else if (event === 'SIGNED_OUT') {
+        toast.info("Signed out");
+      } else if (event === 'USER_UPDATED') {
+        console.log("User updated:", session?.user);
       }
     });
 
     // Check if user is already authenticated
     const checkUser = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+      const { data: { session }, error } = await supabase.auth.getSession();
+      if (error) {
+        console.error("Session check error:", error);
+        toast.error(error.message);
+      }
       if (session) {
         navigate("/chat");
       }
@@ -38,7 +47,7 @@ const Index = () => {
     if (!email) return;
 
     try {
-      const { data, error } = await supabase.auth.resend({
+      const { error } = await supabase.auth.resend({
         type: 'signup',
         email: email,
         options: {
@@ -50,10 +59,9 @@ const Index = () => {
         console.error("Resend error:", error);
         toast.error(error.message);
       } else {
-        console.log("Resend response:", data);
         toast.success("Verification link has been resent to your email!");
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Resend catch error:", error);
       toast.error("Failed to resend verification link");
     }
@@ -74,10 +82,16 @@ const Index = () => {
                   brandAccent: 'rgb(var(--primary))',
                 }
               }
+            },
+            className: {
+              container: 'w-full',
+              button: 'w-full px-4 py-2 rounded',
+              input: 'w-full px-3 py-2 rounded border',
             }
           }}
           theme="dark"
           providers={[]}
+          redirectTo={`${window.location.origin}/chat`}
         />
         <div className="text-center">
           <Button variant="ghost" onClick={handleResendLink}>
