@@ -38,7 +38,7 @@ const Index = () => {
         type: 'signup',
         email,
         options: {
-          emailRedirectTo: window.location.origin + '/chat'
+          emailRedirectTo: `${window.location.origin}/chat`
         }
       });
       
