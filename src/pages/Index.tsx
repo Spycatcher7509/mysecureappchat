@@ -33,33 +33,17 @@ const Index = () => {
     return () => subscription.unsubscribe();
   }, [navigate]);
 
-  const handleResendLink = async () => {
-    const email = prompt("Please enter your email address");
-    if (!email) return;
-
-    try {
-      const { error } = await supabase.auth.resend({
-        type: 'signup',
-        email,
-        options: {
-          emailRedirectTo: window.location.origin
-        }
-      });
-      
-      if (error) {
-        toast.error(error.message);
-      } else {
-        toast.success("Verification link has been resent to your email!");
-      }
-    } catch {
-      toast.error("Failed to resend verification link");
-    }
-  };
-
   return (
     <div className="app-content absolute inset-0 w-full h-full flex items-center justify-center bg-background">
       <div className="relative w-full h-full flex items-center justify-center">
         <Card className="w-full max-w-md p-6 space-y-6 shadow-lg">
+          <div className="w-full flex justify-center mb-4">
+            <img 
+              src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b"
+              alt="Secure Chat"
+              className="w-full h-32 object-cover rounded-lg mb-4"
+            />
+          </div>
           <h1 className="text-2xl font-bold text-center text-foreground">Welcome to Secure Chat</h1>
           <Auth
             supabaseClient={supabase}
