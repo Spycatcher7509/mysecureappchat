@@ -12,19 +12,14 @@ const Index = () => {
   const [session, setSession] = useState(null);
 
   useEffect(() => {
-    // Check current session on mount
     const checkSession = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       setSession(session);
-      if (session) {
-        navigate('/chat');
-      }
+      if (session) navigate('/chat');
     };
     checkSession();
 
-    // Listen for auth state changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      console.log("Auth event:", event, "Session:", session);
       setSession(session);
       
       if (event === 'SIGNED_IN') {
@@ -32,15 +27,10 @@ const Index = () => {
         navigate('/chat');
       } else if (event === 'SIGNED_OUT') {
         toast.info("Signed out successfully");
-      } else if (event === 'PASSWORD_RECOVERY') {
-        toast.info("Password recovery email sent");
       }
     });
 
-    // Cleanup subscription
-    return () => {
-      subscription.unsubscribe();
-    };
+    return () => subscription.unsubscribe();
   }, [navigate]);
 
   const handleResendLink = async () => {
@@ -50,62 +40,52 @@ const Index = () => {
     try {
       const { error } = await supabase.auth.resend({
         type: 'signup',
-        email: email,
+        email,
         options: {
           emailRedirectTo: 'https://lovable.dev/projects/67c142da-72c0-46bb-9a7d-cd6356951302'
         }
       });
       
       if (error) {
-        console.error("Resend error:", error);
         toast.error(error.message);
       } else {
         toast.success("Verification link has been resent to your email!");
       }
-    } catch (error: any) {
-      console.error("Resend catch error:", error);
+    } catch {
       toast.error("Failed to resend verification link");
     }
   };
 
   return (
-    <div className="fixed inset-0 w-full h-full min-h-[100dvh] bg-background flex items-center justify-center" style={{ zIndex: 999999 }}>
-      <div className="absolute inset-0 w-full h-full flex items-center justify-center p-4 overflow-hidden">
-        <Card className="relative w-full max-w-md p-6 space-y-6 shadow-lg">
-          <h1 className="text-2xl font-bold text-center text-foreground mb-6">Welcome to Secure Chat</h1>
-          <Auth
-            supabaseClient={supabase}
-            appearance={{
-              theme: ThemeSupa,
-              variables: {
-                default: {
-                  colors: {
-                    brand: 'rgb(var(--primary))',
-                    brandAccent: 'rgb(var(--primary))',
-                  }
+    <div className="fixed inset-0 flex items-center justify-center bg-background" style={{ zIndex: 999999 }}>
+      <Card className="w-full max-w-md p-6 space-y-6 shadow-lg">
+        <h1 className="text-2xl font-bold text-center text-foreground">Welcome to Secure Chat</h1>
+        <Auth
+          supabaseClient={supabase}
+          appearance={{
+            theme: ThemeSupa,
+            variables: {
+              default: {
+                colors: {
+                  brand: 'rgb(var(--primary))',
+                  brandAccent: 'rgb(var(--primary))',
                 }
-              },
-              className: {
-                container: 'w-full',
-                button: 'w-full px-4 py-2 rounded',
-                input: 'w-full px-3 py-2 rounded border',
-                message: 'text-sm text-red-500'
               }
-            }}
-            theme="dark"
-            providers={[]}
-            redirectTo="https://lovable.dev/projects/67c142da-72c0-46bb-9a7d-cd6356951302/chat"
-          />
-          <div className="text-center space-y-2">
-            <Button variant="ghost" onClick={handleResendLink}>
-              Resend verification link
-            </Button>
-            <p className="text-sm text-muted-foreground">
-              If you're having trouble signing in, make sure you've verified your email address.
-            </p>
-          </div>
-        </Card>
-      </div>
+            }
+          }}
+          theme="dark"
+          providers={[]}
+          redirectTo="https://lovable.dev/projects/67c142da-72c0-46bb-9a7d-cd6356951302/chat"
+        />
+        <div className="text-center space-y-2">
+          <Button variant="ghost" onClick={handleResendLink}>
+            Resend verification link
+          </Button>
+          <p className="text-sm text-muted-foreground">
+            If you're having trouble signing in, make sure you've verified your email address.
+          </p>
+        </div>
+      </Card>
     </div>
   );
 };
