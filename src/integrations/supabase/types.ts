@@ -16,6 +16,7 @@ export type Database = {
           file_path: string | null
           file_type: string | null
           id: number
+          read_at: string | null
           sender_id: string
         }
         Insert: {
@@ -24,6 +25,7 @@ export type Database = {
           file_path?: string | null
           file_type?: string | null
           id?: number
+          read_at?: string | null
           sender_id: string
         }
         Update: {
@@ -32,6 +34,7 @@ export type Database = {
           file_path?: string | null
           file_type?: string | null
           id?: number
+          read_at?: string | null
           sender_id?: string
         }
         Relationships: []
