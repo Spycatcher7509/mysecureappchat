@@ -21,8 +21,6 @@ const Index = () => {
         toast.info("Signed out");
       } else if (event === 'USER_UPDATED') {
         console.log("User updated:", session?.user);
-      } else if (event === 'USER_DELETED') {
-        toast.error("User account has been deleted");
       } else if (event === 'PASSWORD_RECOVERY') {
         toast.info("Password recovery email sent");
       }
@@ -97,10 +95,6 @@ const Index = () => {
           theme="dark"
           providers={[]}
           redirectTo={`${window.location.origin}/chat`}
-          onError={(error) => {
-            console.error("Auth error:", error);
-            toast.error(error.message);
-          }}
         />
         <div className="text-center space-y-2">
           <Button variant="ghost" onClick={handleResendLink}>
