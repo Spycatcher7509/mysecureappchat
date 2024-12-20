@@ -57,7 +57,7 @@ const Index = () => {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-background" style={{ zIndex: 999999 }}>
+    <div className="fixed inset-0 flex items-center justify-center bg-background" style={{ zIndex: 2147483647 }}>
       <Card className="w-full max-w-md p-6 space-y-6 shadow-lg">
         <h1 className="text-2xl font-bold text-center text-foreground">Welcome to Secure Chat</h1>
         <Auth
