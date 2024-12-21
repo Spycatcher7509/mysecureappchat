@@ -4,7 +4,7 @@
   margin: 0;
   padding: 0;
   overflow: hidden;
-  position: fixed;
+  position: relative;
   inset: 0;
   background: hsl(var(--background));
 }
@@ -15,34 +15,7 @@ body {
   overflow: hidden;
 }
 
-/* Hide any Lovable-related elements */
-#lovable-button,
-[data-lovable],
-[class*="lovable"],
-[id*="lovable"],
-[class*="gpteng"],
-[id*="gpteng"],
-[class*="wright"],
-[id*="wright"],
-.lovable-badge,
-.gpt-engineer-badge,
-div[style*="position: fixed"][style*="bottom: 0"],
-div[style*="position: fixed"][style*="right: 0"] {
-  display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-  position: absolute !important;
-  z-index: -9999 !important;
-  width: 0 !important;
-  height: 0 !important;
-  overflow: hidden !important;
-  clip: rect(0, 0, 0, 0) !important;
-  white-space: nowrap !important;
-  border: 0 !important;
-}
-
-/* Ensure our app content takes precedence */
+/* Ensure the app content takes precedence */
 .app-content {
   position: relative;
   z-index: 1;
@@ -56,4 +29,18 @@ div[style*="position: fixed"][style*="right: 0"] {
   z-index: 1 !important;
   width: auto !important;
   height: auto !important;
+}
+
+/* Styles for embedded mode */
+.embedded-chat {
+  width: 100%;
+  height: 100%;
+  border: none;
+  position: relative;
+}
+
+/* When embedded, adjust root container */
+.embedded #root {
+  position: relative;
+  height: 100%;
 }
