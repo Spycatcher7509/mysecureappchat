@@ -14,6 +14,7 @@ const Chat = () => {
   const queryClient = useQueryClient();
   const [newMessage, setNewMessage] = useState("");
   const [currentUserId, setCurrentUserId] = useState<string>();
+  const [currentUserEmail, setCurrentUserEmail] = useState<string>();
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
@@ -21,13 +22,15 @@ const Chat = () => {
         navigate("/");
       } else {
         setCurrentUserId(session.user.id);
+        setCurrentUserEmail(session.user.email);
       }
     });
 
-    // Set initial user ID
+    // Set initial user ID and email
     supabase.auth.getUser().then(({ data: { user }}) => {
       if (user) {
         setCurrentUserId(user.id);
+        setCurrentUserEmail(user.email);
       }
     });
 
@@ -35,6 +38,27 @@ const Chat = () => {
       subscription.unsubscribe();
     };
   }, [navigate]);
+
+  const sendDiscordNotification = async (content: string) => {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) return;
+
+      const response = await supabase.functions.invoke('discord-notification', {
+        body: {
+          type: 'new_message',
+          content,
+          username: currentUserEmail
+        }
+      });
+
+      if (response.error) {
+        console.error('Discord notification error:', response.error);
+      }
+    } catch (error) {
+      console.error('Failed to send Discord notification:', error);
+    }
+  };
 
   const { data: messages = [], isLoading } = useQuery({
     queryKey: ['messages'],
@@ -63,6 +87,11 @@ const Chat = () => {
         ]);
       
       if (error) throw error;
+
+      // Send Discord notification for new message
+      if (content) {
+        await sendDiscordNotification(content);
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['messages'] });
