@@ -38,7 +38,6 @@ const Index = () => {
         type: 'signup',
         email,
         options: {
-          // Using relative path instead of full URL to avoid DNS issues
           emailRedirectTo: '/chat'
         }
       });
@@ -57,11 +56,16 @@ const Index = () => {
     <div className="app-content absolute inset-0 w-full h-full flex items-center justify-center bg-background">
       <div className="relative w-full h-full flex items-center justify-center">
         <Card className="w-full max-w-md p-6 space-y-6 shadow-lg">
-          <div className="w-full flex justify-center mb-4">
+          <div className="w-full flex flex-col space-y-4">
             <img 
               src="https://upload.wikimedia.org/wikipedia/commons/3/37/Flag_of_the_Royal_Corps_of_Signals.svg"
               alt="Royal Corps of Signals Flag"
-              className="w-full h-32 object-contain rounded-lg mb-4 royal-corps-image"
+              className="w-full h-32 object-contain rounded-lg royal-corps-image"
+            />
+            <img 
+              src="/lovable-uploads/a4de23b8-4aa3-45c1-8de3-4f3ca7840248.png"
+              alt="Dover Beach Humor"
+              className="w-full object-contain rounded-lg"
             />
           </div>
           <h1 className="text-2xl font-bold text-center text-foreground">Welcome to Secure Chat</h1>
