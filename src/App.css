@@ -19,6 +19,8 @@ body {
 .app-content {
   position: relative;
   z-index: 1;
+  height: 100%;
+  width: 100%;
 }
 
 /* Ensure the Royal Corps image is visible */
@@ -43,4 +45,11 @@ body {
 .embedded #root {
   position: relative;
   height: 100%;
+  min-height: 100%;
+}
+
+/* Ensure proper sizing in iframes */
+iframe #root {
+  height: 100%;
+  min-height: 100%;
 }
