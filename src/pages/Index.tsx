@@ -60,12 +60,12 @@ const Index = () => {
             <img 
               src="https://upload.wikimedia.org/wikipedia/commons/3/37/Flag_of_the_Royal_Corps_of_Signals.svg"
               alt="Royal Corps of Signals Flag"
-              className="w-full h-32 object-contain rounded-lg royal-corps-image"
+              className="w-24 h-24 mx-auto object-contain rounded-lg royal-corps-image"
             />
             <img 
               src="/lovable-uploads/a4de23b8-4aa3-45c1-8de3-4f3ca7840248.png"
               alt="Dover Beach Humor"
-              className="w-full object-contain rounded-lg"
+              className="w-32 h-32 mx-auto object-contain rounded-lg"
             />
           </div>
           <h1 className="text-2xl font-bold text-center text-foreground">Welcome to Secure Chat</h1>
