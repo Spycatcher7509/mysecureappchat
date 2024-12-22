@@ -8,6 +8,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { MessageList } from "@/components/chat/MessageList";
 import { MessageInput } from "@/components/chat/MessageInput";
 import { Message } from "@/types/chat";
+import { playNotificationSound } from "@/utils/audio";
 
 const Chat = () => {
   const navigate = useNavigate();
@@ -26,7 +27,6 @@ const Chat = () => {
       }
     });
 
-    // Set initial user ID and email
     supabase.auth.getUser().then(({ data: { user }}) => {
       if (user) {
         setCurrentUserId(user.id);
@@ -87,6 +87,9 @@ const Chat = () => {
         ]);
       
       if (error) throw error;
+
+      // Play notification sound when message is sent successfully
+      playNotificationSound();
 
       // Send Discord notification for new message
       if (content) {
