@@ -12,17 +12,18 @@ const queryClient = new QueryClient();
 
 const App = () => {
   console.log("App component is rendering");
+  console.log("Current path:", window.location.pathname);
   
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter>
+        <BrowserRouter basename="/">
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/chat" element={<Chat />} />
-            {/* Catch all routes and redirect to home */}
+            <Route path="/index.html" element={<Navigate to="/" replace />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </BrowserRouter>
