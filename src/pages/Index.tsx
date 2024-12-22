@@ -57,11 +57,13 @@ const Index = () => {
       <div className="relative w-full h-full flex items-center justify-center">
         <Card className="w-full max-w-md p-6 space-y-6 shadow-lg">
           <div className="w-full flex flex-col space-y-4">
-            <img 
-              src="/lovable-uploads/a4de23b8-4aa3-45c1-8de3-4f3ca7840248.png"
-              alt="Dover Beach Humor"
-              className="w-32 h-32 mx-auto object-contain rounded-lg"
-            />
+            <div className="w-full max-w-[200px] mx-auto">
+              <img 
+                src="/lovable-uploads/a4de23b8-4aa3-45c1-8de3-4f3ca7840248.png"
+                alt="Dover Beach Humor"
+                className="w-full h-auto object-contain rounded-lg shadow-sm"
+              />
+            </div>
           </div>
           <h1 className="text-2xl font-bold text-center text-foreground">Welcome to Secure Chat</h1>
           <Auth
