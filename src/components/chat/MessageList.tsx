@@ -22,6 +22,11 @@ export const MessageList = ({ messages, currentUserId, isLoading }: MessageListP
             isCurrentUser ? 'bg-primary text-primary-foreground' : 'bg-muted'
           }`}
         >
+          {!isCurrentUser && (
+            <div className="text-sm font-medium mb-1">
+              {message.sender_nickname || message.sender_email || 'Unknown User'}
+            </div>
+          )}
           {message.file_path && (
             <div className="mb-2">
               {message.file_type?.startsWith('image/') ? (

@@ -65,11 +65,23 @@ const Chat = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('messages')
-        .select('*')
+        .select(`
+          *,
+          profiles:sender_id (
+            nickname,
+            email
+          )
+        `)
         .order('created_at', { ascending: true });
       
       if (error) throw error;
-      return data as Message[];
+
+      // Transform the data to include sender information directly in the message
+      return data.map((message: any) => ({
+        ...message,
+        sender_nickname: message.profiles?.nickname,
+        sender_email: message.profiles?.email,
+      })) as Message[];
     },
   });
 

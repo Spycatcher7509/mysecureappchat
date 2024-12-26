@@ -5,4 +5,6 @@ export interface Message {
   created_at: string | null;
   file_path: string | null;
   file_type: string | null;
+  sender_nickname?: string;
+  sender_email?: string;
 }
