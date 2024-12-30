@@ -26,6 +26,10 @@ const Index = () => {
       }
     });
 
+    // Log the current URL for debugging
+    console.log("Current URL:", window.location.href);
+    console.log("Current origin:", window.location.origin);
+
     return () => subscription.unsubscribe();
   }, [navigate]);
 
@@ -38,7 +42,7 @@ const Index = () => {
         type: 'signup',
         email,
         options: {
-          emailRedirectTo: '/chat'
+          emailRedirectTo: `${window.location.origin}/chat`
         }
       });
       
@@ -81,7 +85,7 @@ const Index = () => {
             }}
             theme="dark"
             providers={[]}
-            redirectTo="/chat"
+            redirectTo={`${window.location.origin}/chat`}
           />
           <div className="text-center space-y-2">
             <Button variant="ghost" onClick={handleResendLink}>
