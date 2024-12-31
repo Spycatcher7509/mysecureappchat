@@ -29,6 +29,7 @@ const Index = () => {
     // Log the current URL for debugging
     console.log("Current URL:", window.location.href);
     console.log("Current origin:", window.location.origin);
+    console.log("Base URL:", document.baseURI);
 
     return () => subscription.unsubscribe();
   }, [navigate]);
@@ -42,7 +43,7 @@ const Index = () => {
         type: 'signup',
         email,
         options: {
-          emailRedirectTo: `${window.location.origin}/chat`
+          emailRedirectTo: new URL('/chat', window.location.origin).toString()
         }
       });
       
@@ -53,6 +54,7 @@ const Index = () => {
       }
     } catch (error) {
       toast.error("Failed to resend verification link");
+      console.error("Resend error:", error);
     }
   };
 
@@ -85,7 +87,7 @@ const Index = () => {
             }}
             theme="dark"
             providers={[]}
-            redirectTo={`${window.location.origin}/chat`}
+            redirectTo={new URL('/chat', window.location.origin).toString()}
           />
           <div className="text-center space-y-2">
             <Button variant="ghost" onClick={handleResendLink}>
